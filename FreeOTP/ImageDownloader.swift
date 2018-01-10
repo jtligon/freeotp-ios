@@ -100,7 +100,7 @@ class ImageDownloader : NSObject {
     func fromURI(_ uri: String?, completion: @escaping (UIImage) -> Void) {
         if let u = uri {
             if u.hasPrefix("phasset:") {
-                let id = String(u[u.index(u.startIndex, offsetBy: "phasset:".characters.count)...])
+                let id = String(u[u.index(u.startIndex, offsetBy: "phasset:".count)...])
                 let rslt = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: nil)
                 if rslt.count > 0 {
                     return fromPHAsset(rslt[0], completion: completion)
@@ -109,11 +109,12 @@ class ImageDownloader : NSObject {
                 // App Transport Security doesn't allow arbitrary loading of
                 // HTTP resources any longer.  Most desired images can be
                 // retrieved via HTTPS, so just promote URIs to HTTPS.
+                var secureURL = u
                 if u.hasPrefix("http:") {
-                    u.insert("s", at: u.index(u.startIndex, offsetBy: 4))
+                    secureURL.insert("s", at: u.index(u.startIndex, offsetBy: 4))
                 }
 
-                if let remote = URL(string: u) {
+                if let remote = URL(string: secureURL) {
                     return fromURL(remote, completion: completion)
                 }
             }
