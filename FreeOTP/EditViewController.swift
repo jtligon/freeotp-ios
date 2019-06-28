@@ -129,8 +129,8 @@ class EditViewController : UIViewController, UITextFieldDelegate, UIImagePickerC
     @discardableResult func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let str = (textField.text! as NSString).replacingCharacters(in: range, with: string)
 
-        let diss = def("issuer") as! String!
-        let dlab = def("label") as! String!
+        let diss = def("issuer") as! String
+        let dlab = def("label") as! String
         let dimg = def("image") as! String?
 
         switch textField {
