@@ -26,6 +26,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        if !SessionHandler.shared.isSuported() {
+            print("WCSession not supported (f.e. on iPad).")
+        }
         return true
     }
 

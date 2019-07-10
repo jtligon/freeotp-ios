@@ -20,10 +20,13 @@
 
 import Foundation
 import UIKit
+import WatchConnectivity
 
 class TokensViewController : UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate {
     fileprivate var lastPath: IndexPath? = nil
     fileprivate var store = TokenStore()
+    var sesion:WCSession? = nil
+    
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -225,6 +228,17 @@ class TokensViewController : UICollectionViewController, UICollectionViewDelegat
         let lpg = UILongPressGestureRecognizer(target: self, action: #selector(TokensViewController.handleLongPress(_:)))
         lpg.minimumPressDuration = 0.5
         collectionView?.addGestureRecognizer(lpg)
+        
+        //Set up Session Handler for Watch app
+//        SessionHandler
+        //this is so that we can call the below function from the watch
+        SessionHandler.shared.collectionView = self
+        
+    }
+    
+    func getTopToken() -> Token? {
+        print("taking the top token, hope something is there!")
+        return store.load(0)
     }
 
     override func viewWillAppear(_ animated: Bool) {
